@@ -24,6 +24,7 @@
             :key="task.id"
             @remove="removeTask(index)"
             @complete="completeTask(task)"
+            @editItem="editTask(index)"
           />
         </ul>
       </div>
@@ -52,6 +53,7 @@ export default {
       tasks: [],
       newTask: "",
       maxTasksToShow: 10,
+      editingIndex: null,
     };
   },
   computed: {
@@ -62,10 +64,15 @@ export default {
   methods: {
     addTask() {
       if (this.newTask) {
-        this.tasks.push({
-          title: this.newTask,
-          completed: false,
-        });
+        if (this.editingIndex !== null) {
+          this.tasks[this.editingIndex].title = this.newTask;
+          this.editingIndex = null;
+        } else {
+          this.tasks.push({
+            title: this.newTask,
+            completed: false,
+          });
+        }
         this.newTask = "";
       }
     },
@@ -75,7 +82,6 @@ export default {
     isCompleted(task) {
       return task.completed;
     },
-
     clearCompleted() {
       this.tasks = this.tasks.filter(this.inProgress);
     },
@@ -84,9 +90,17 @@ export default {
     },
     completeTask(task) {
       task.completed = !task.completed;
+      this.editingIndex = null;
     },
     removeTask(index) {
       this.tasks.splice(index, 1);
+      this.editingIndex = null;
+    },
+    editTask(index) {
+      if (!this.tasks[index].completed) {
+        this.newTask = this.tasks[index].title;
+        this.editingIndex = index;
+      }
     },
   },
   mounted() {

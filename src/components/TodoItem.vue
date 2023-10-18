@@ -1,9 +1,19 @@
 <template>
   <li>
-    <button @click.self="$emit('complete')" :class="className">
+    <button
+      @click.self="$emit('complete')"
+      :class="className"
+      @dblclick="$emit('editItem')"
+    >
       <i class="far fa-circle"></i>{{ task.title }}
     </button>
-    <button @click="$emit('remove')"><i class="far fa-trash-alt"></i></button>
+
+    <div class="btn-container">
+      <button @click="$emit('editItem')">
+        <i class="far fa-edit"></i>
+      </button>
+      <button @click="$emit('remove')"><i class="far fa-trash-alt"></i></button>
+    </div>
   </li>
 </template>
 

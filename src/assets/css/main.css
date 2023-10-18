@@ -138,3 +138,9 @@ ul {
 .taskItems .toggle.toggle-completed {
   text-decoration: line-through;
 }
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
