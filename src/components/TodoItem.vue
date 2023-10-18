@@ -3,7 +3,7 @@
     <button class="toggle">
       <i class="far fa-circle"></i>{{ task.title }}
     </button>
-    <button><i class="far fa-trash-alt"></i></button>
+    <button @click="$emit('remove')"><i class="far fa-trash-alt"></i></button>
   </li>
 </template>
 
