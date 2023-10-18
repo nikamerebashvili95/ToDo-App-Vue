@@ -18,12 +18,7 @@
       <!-- task lists -->
       <div class="taskItems">
         <ul>
-          <li v-for="task in tasks" :key="task.id">
-            <button class="toggle">
-              <i class="far fa-circle"></i>{{ task.title }}
-            </button>
-            <button><i class="far fa-trash-alt"></i></button>
-          </li>
+          <TodoItem v-bind:task="task" v-for="task in tasks" :key="task.id" />
         </ul>
       </div>
       <!-- buttons -->
