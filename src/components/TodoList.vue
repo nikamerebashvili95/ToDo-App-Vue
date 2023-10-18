@@ -7,8 +7,13 @@
       </div>
       <!-- form -->
       <div class="form">
-        <input type="text" placeholder="New Task" />
-        <button><i class="fas fa-plus"></i></button>
+        <input
+          type="text"
+          placeholder="New Task"
+          v-model="newTask"
+          @keyup.enter="addTask"
+        />
+        <button @click="addTask"><i class="fas fa-plus"></i></button>
       </div>
       <!-- task lists -->
       <div class="taskItems">
@@ -23,12 +28,12 @@
       </div>
       <!-- buttons -->
       <div class="clearBtns">
-        <button>Clear completed</button>
+        <button @click="clearCompleted">Clear completed</button>
         <button @click="clearAll">Clear all</button>
       </div>
       <!-- pending task -->
       <div class="pendingTasks">
-        <span>Pending Tasks: </span>
+        <span>Pending Tasks: {{ incomplete }} </span>
       </div>
     </div>
   </div>
@@ -44,9 +49,34 @@ export default {
   data() {
     return {
       tasks: [],
+      newTask: "",
+      maxTasksToShow: 10,
     };
   },
+  computed: {
+    incomplete() {
+      return this.tasks.filter(this.inProgress).length;
+    },
+  },
   methods: {
+    addTask() {
+      if (this.newTask) {
+        this.tasks.push({
+          title: this.newTask,
+          completed: false,
+        });
+        this.newTask = "";
+      }
+    },
+    inProgress(task) {
+      return !this.isCompleted(task);
+    },
+    isCompleted(task) {
+      return task.completed;
+    },
+    clearCompleted() {
+      this.tasks = this.tasks.filter(this.inProgress);
+    },
     clearAll() {
       this.tasks = [];
     },
@@ -55,7 +85,7 @@ export default {
     axios
       .get("https://jsonplaceholder.typicode.com/todos")
       .then((response) => {
-        this.tasks = response.data;
+        this.tasks = response.data.slice(0, this.maxTasksToShow);
         console.log(response.data);
       })
       .catch((error) => {
