@@ -23,6 +23,7 @@
             v-for="(task, index) in tasks"
             :key="task.id"
             @remove="removeTask(index)"
+            @complete="completeTask(task)"
           />
         </ul>
       </div>
@@ -74,11 +75,15 @@ export default {
     isCompleted(task) {
       return task.completed;
     },
+
     clearCompleted() {
       this.tasks = this.tasks.filter(this.inProgress);
     },
     clearAll() {
       this.tasks = [];
+    },
+    completeTask(task) {
+      task.completed = !task.completed;
     },
     removeTask(index) {
       this.tasks.splice(index, 1);

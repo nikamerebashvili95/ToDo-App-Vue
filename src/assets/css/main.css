@@ -134,3 +134,7 @@ ul {
 .pendingTasks {
   padding: 0 6px;
 }
+
+.taskItems .toggle.toggle-completed {
+  text-decoration: line-through;
+}
