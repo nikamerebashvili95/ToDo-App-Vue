@@ -27,6 +27,15 @@
           </li>
         </ul>
       </div>
+      <!-- buttons -->
+      <div class="clearBtns">
+        <button>Clear completed</button>
+        <button>Clear all</button>
+      </div>
+      <!-- pending task -->
+      <div class="pendingTasks">
+        <span>Pending Tasks: </span>
+      </div>
     </div>
   </div>
 </template>
