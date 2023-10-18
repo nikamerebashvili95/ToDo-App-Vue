@@ -74,6 +74,7 @@ export default {
           });
         }
         this.newTask = "";
+        this.saveTasksToLocalStorage();
       }
     },
     inProgress(task) {
@@ -84,17 +85,21 @@ export default {
     },
     clearCompleted() {
       this.tasks = this.tasks.filter(this.inProgress);
+      this.saveTasksToLocalStorage();
     },
     clearAll() {
       this.tasks = [];
+      this.saveTasksToLocalStorage();
     },
     completeTask(task) {
       task.completed = !task.completed;
       this.editingIndex = null;
+      this.saveTasksToLocalStorage();
     },
     removeTask(index) {
       this.tasks.splice(index, 1);
       this.editingIndex = null;
+      this.saveTasksToLocalStorage();
     },
     editTask(index) {
       if (!this.tasks[index].completed) {
@@ -102,17 +107,25 @@ export default {
         this.editingIndex = index;
       }
     },
+    saveTasksToLocalStorage() {
+      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    },
   },
   mounted() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos")
-      .then((response) => {
-        this.tasks = response.data.slice(0, this.maxTasksToShow);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching todos:", error);
-      });
+    const savedTasks = localStorage.getItem("tasks");
+    if (savedTasks) {
+      this.tasks = JSON.parse(savedTasks);
+    } else {
+      axios
+        .get("https://jsonplaceholder.typicode.com/todos")
+        .then((response) => {
+          this.tasks = response.data.slice(0, this.maxTasksToShow);
+          this.saveTasksToLocalStorage();
+        })
+        .catch((error) => {
+          console.error("Error fetching todos:", error);
+        });
+    }
   },
 };
 </script>
