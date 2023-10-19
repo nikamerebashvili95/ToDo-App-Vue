@@ -54,12 +54,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.circle {
-  color: #4ec5c1;
-  background: #4ec5c1;
-  border-radius: 50%;
-  border: none;
-}
-</style>

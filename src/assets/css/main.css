@@ -15,7 +15,6 @@ body {
 }
 
 .container {
-  min-width: 680px;
   max-width: 780px;
   margin: 0 auto;
   padding: 0 15px;
@@ -143,4 +142,17 @@ ul {
   display: flex;
   align-items: center;
   column-gap: 10px;
+}
+
+.circle {
+  color: #4ec5c1;
+  background: #4ec5c1;
+  border-radius: 50%;
+  border: none;
+}
+
+@media only screen and (max-height: 500px) {
+  #app {
+    padding: 10vh 0;
+  }
 }

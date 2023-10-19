@@ -12,6 +12,9 @@
           placeholder="New Task"
           v-model="newTask"
           @keyup.enter="addTask"
+          :style="{
+            border: taskAddFailed ? '1px solid red' : '',
+          }"
         />
         <button @click="addTask"><i class="fas fa-plus"></i></button>
       </div>
@@ -54,6 +57,7 @@ export default {
       newTask: "",
       maxTasksToShow: 10,
       editingIndex: null,
+      taskAddFailed: false,
     };
   },
   computed: {
@@ -63,7 +67,7 @@ export default {
   },
   methods: {
     addTask() {
-      if (this.newTask) {
+      if (this.newTask.trim() !== "") {
         if (this.editingIndex !== null) {
           this.tasks[this.editingIndex].title = this.newTask;
           this.editingIndex = null;
@@ -75,7 +79,14 @@ export default {
         }
         this.newTask = "";
         this.saveTasksToLocalStorage();
+      } else {
+        this.taskAddFailed = true;
+        setTimeout(() => {
+          this.taskAddFailed = false;
+        }, 2000);
       }
+      this.newTask = "";
+      this.saveTasksToLocalStorage();
     },
     inProgress(task) {
       return !this.isCompleted(task);
