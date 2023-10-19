@@ -1,18 +1,20 @@
 <template>
   <li>
     <button
-      @click.self="$emit('complete')"
+      @click="handleClick"
       :class="className"
       @dblclick="$emit('editItem')"
     >
-      <i class="far fa-circle"></i>{{ task.title }}
+      <i :class="{ circle: task.completed }" class="far fa-circle"></i
+      >{{ task.title }}
     </button>
-
     <div class="btn-container">
       <button @click="$emit('editItem')">
         <i class="far fa-edit"></i>
       </button>
-      <button @click="$emit('remove')"><i class="far fa-trash-alt"></i></button>
+      <button @click="$emit('remove')">
+        <i class="far fa-trash-alt"></i>
+      </button>
     </div>
   </li>
 </template>
@@ -21,6 +23,11 @@
 export default {
   name: "TodoItem",
   props: ["task"],
+  data() {
+    return {
+      clickCount: 0,
+    };
+  },
   computed: {
     className() {
       let classes = ["toggle"];
@@ -30,5 +37,29 @@ export default {
       return classes.join(" ");
     },
   },
+  methods: {
+    handleClick() {
+      this.clickCount++;
+      if (this.clickCount === 1) {
+        setTimeout(() => {
+          if (this.clickCount === 1) {
+            this.$emit("complete");
+          }
+          this.clickCount = 0;
+        }, 200);
+      } else if (this.clickCount === 2) {
+        this.clickCount = 0;
+      }
+    },
+  },
 };
 </script>
+
+<style>
+.circle {
+  color: #4ec5c1;
+  background: #4ec5c1;
+  border-radius: 50%;
+  border: none;
+}
+</style>
